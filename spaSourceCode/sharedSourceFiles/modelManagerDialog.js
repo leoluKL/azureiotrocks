@@ -715,7 +715,7 @@ modelManagerDialog.prototype.listModels=async function(shouldBroadcast){
         zeroModelItem.css("cursor","default")
 
         var createSampleModelsButton = $('<button class="w3-button w3-amber w3-hover-pink w3-border" style="margin:10%;font-size:1em">Create Sample Models</button>')
-        this.modelList.append(createSampleModelsButton)
+        this.modelList.append(createSampleModelsButton) 
         createSampleModelsButton.on("click", () => { }) 
     
     }else{
