@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorTheme": "Monokai Pro (Filter Octagon)",
+		"liveServer.settings.multiRootWorkspaceName": "azureiotrocks",
+		"liveServer.settings.root":"/spaPortal/"
+	}
+}
