@@ -1,13 +1,8 @@
 /**/.vscode
 
-# exclude everything
-/ADTUIOriginal/userGeneratedFiles/*
-# exception to the rule
-!/ADTUIOriginal/userGeneratedFiles/.gitkeep 
-
 /**/.env
 
 /**/node_modules
-!/azureiotrocksB2C/spaPortal/node_modules 
+!/spaPortal/node_modules 
 
 /**/selfExp.*
