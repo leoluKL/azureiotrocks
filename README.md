@@ -24,7 +24,8 @@ There are various ways to start exploring journey:
 -   Right click connecting line between twins to add bend point and adjust connection shape. Save current digital twins schematic layout by pressing "ctrl+s" and typing layout name. You can recall any saved layout from layout button in top side toolbar
 
 ## Explore More Software Features
-### Digital Twins Data Processing
+-   Digital Twins Data Processing<br/>
+An important usage of digital twin solution is to decouple complicate business processing flow into smaller processing logic that attaches with each digital twins. For example, the purpose of the below system design is to use "majorController" unit to control three different switches so one of data source will be connected to the final twin entity. It is implemented by setting decoupled logic flow among different twins. This simplifies the design. It also provide better flexibility in expanding system. <br/>
 ![Screenshot](DocumentsImages/Digital%20Twins%20Data%20Processing.png)
 
 
@@ -45,7 +46,7 @@ There are various ways to start exploring journey:
 
 
 # Contributing
-[TODO: Explain how to contribute to project]
+[TODO: Explain how to contribute]
 
 # Authors
 [Leo Lu](mailto:leolu@microsoft.com)
