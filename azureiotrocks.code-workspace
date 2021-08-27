@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"workbench.colorTheme": "Monokai Pro (Filter Octagon)",
+		"workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
 		"liveServer.settings.multiRootWorkspaceName": "azureiotrocks",
 		"liveServer.settings.root":"/spaPortal/"
 	}
