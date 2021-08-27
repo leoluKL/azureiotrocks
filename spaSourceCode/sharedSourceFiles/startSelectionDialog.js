@@ -1,9 +1,9 @@
-const globalCache = require("../sharedSourceFiles/globalCache")
-const simpleSelectMenu=require("../sharedSourceFiles/simpleSelectMenu")
+const globalCache = require("./globalCache")
+const simpleSelectMenu=require("./simpleSelectMenu")
 const msalHelper=require("../msalHelper")
-const editProjectDialog=require("../sharedSourceFiles/editProjectDialog")
-const modelManagerDialog = require("../sharedSourceFiles/modelManagerDialog")
-const modelAnalyzer = require("../sharedSourceFiles/modelAnalyzer")
+const editProjectDialog=require("./editProjectDialog")
+const modelManagerDialog = require("./modelManagerDialog")
+const modelAnalyzer = require("./modelAnalyzer")
 
 function startSelectionDialog() {
     if(!this.DOM){

@@ -1,4 +1,4 @@
-const startSelectionDialog = require("./startSelectionDialog")
+const startSelectionDialog = require("../sharedSourceFiles/startSelectionDialog")
 const modelManagerDialog = require("../sharedSourceFiles/modelManagerDialog")
 const editLayoutDialog= require("./editLayoutDialog")
 const simpleSelectMenu= require("../sharedSourceFiles/simpleSelectMenu")

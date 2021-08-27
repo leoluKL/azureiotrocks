@@ -107,6 +107,7 @@ topologyDOM_simDataSource.prototype.updateOriginObjectValue=function(nodeInfo, p
 topologyDOM_simDataSource.prototype.stopSimNode=function(ele){
     var simNodeInfo=ele.data("originalInfo")
     this.refreshRealSimNodeInfoFromDBTwin(simNodeInfo)
+    if(!this.runningSimDataSource[simNodeInfo.simNodeName]) return;
     var simTimer=this.runningSimDataSource[simNodeInfo.simNodeName].simTimer
     if(simTimer) clearInterval(simTimer)
     var dblockTimer=this.runningSimDataSource[simNodeInfo.simNodeName].dblockTimer
@@ -153,7 +154,9 @@ topologyDOM_simDataSource.prototype.newSimulatorSource = function (twinName) {
     }
 }
 
-topologyDOM_simDataSource.prototype.deleteSimNode=function(simNodeInfo){
+topologyDOM_simDataSource.prototype.deleteSimNode=function(ele){
+    this.stopSimNode(ele)
+    var simNodeInfo=ele.data("originalInfo")
     var twinID=simNodeInfo.twinID
     var simNodeName=simNodeInfo.simNodeName
     var dbTwin= globalCache.DBTwins[twinID]

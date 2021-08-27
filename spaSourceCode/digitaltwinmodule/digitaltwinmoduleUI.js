@@ -2,7 +2,7 @@
 const topologyDOM=require("./topologyDOM.js")
 const mapDOM=require("./mapDOM.js")
 const twinsTree=require("./twinsTree")
-const startSelectionDialog = require("./startSelectionDialog")
+const startSelectionDialog = require("../sharedSourceFiles/startSelectionDialog")
 const modelManagerDialog = require("../sharedSourceFiles/modelManagerDialog")
 const projectSettingDialog = require("../sharedSourceFiles/projectSettingDialog")
 const modelEditorDialog = require("../sharedSourceFiles/modelEditorDialog")

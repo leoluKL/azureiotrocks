@@ -2,7 +2,6 @@ const globalCache = require("../sharedSourceFiles/globalCache");
 const newTwinDialog=require("../sharedSourceFiles/newTwinDialog");
 const modelIoTSettingDialog = require("./modelIoTSettingDialog")
 const simpleExpandableSection = require("../sharedSourceFiles/simpleExpandableSection");
-const { modelsCheckBoxes } = require("../digitaltwinmodule/startSelectionDialog");
 
 function singleModelTwinsList(singleADTModel,parentTwinsList) {
     this.parentTwinsList=parentTwinsList
@@ -12,8 +11,11 @@ function singleModelTwinsList(singleADTModel,parentTwinsList) {
     this.createDOM()
 }
 
-singleModelTwinsList.prototype.removeMemoryReference=function(){
-    for(var ind in this) this[ind]=null
+singleModelTwinsList.prototype.deleteSelf=function(){
+    this.oneSection.deleteSelf()
+    var parentArr = this.parentTwinsList.singleModelTwinsListArr
+    const index = parentArr.indexOf(this);
+    if (index > -1) parentArr.splice(index, 1);
 }
 
 singleModelTwinsList.prototype.createDOM=function(){
@@ -21,26 +23,28 @@ singleModelTwinsList.prototype.createDOM=function(){
     this.oneSection=oneSection
     this.listDOM=oneSection.listDOM
 
-    //fill in the twins under this model
-    var twins=[]
-    for(var twinID in globalCache.DBTwins){
-        var aTwin=globalCache.DBTwins[twinID]
-        if(aTwin.modelID==this.info["@id"]) twins.push(aTwin)
-    }
-    twins.sort(function (a, b) { 
-        var aName=a.displayName.toLowerCase()
-        var bName=b.displayName.toLowerCase()
-        return aName.localeCompare(bName) 
-    });
-    twins.forEach(aTwin=>{
-        this.childTwins.push(new singleTwinIcon(aTwin,this))
-    })
-
     this.refreshName()
 }
 
 singleModelTwinsList.prototype.addTwin=function(DBTwinInfo){
     this.childTwins.push(new singleTwinIcon(DBTwinInfo,this))
+    this.refreshName()
+}
+
+singleModelTwinsList.prototype.addTwinArr=function(twinArr,skipRepeat){
+    twinArr.sort(function (a, b) { 
+        var aName=a.displayName.toLowerCase()
+        var bName=b.displayName.toLowerCase()
+        return aName.localeCompare(bName) 
+    });
+    var checkRepeat={}
+    if(skipRepeat){
+        this.childTwins.forEach(aTwinIcon=>{checkRepeat[aTwinIcon.twinInfo.displayName]=1})
+    }
+    twinArr.forEach(aTwin=>{
+        if(skipRepeat && checkRepeat[aTwin.displayName]) return;
+        this.childTwins.push(new singleTwinIcon(aTwin,this))
+    })
     this.refreshName()
 }
 
@@ -109,6 +113,11 @@ singleModelTwinsList.prototype.getSingleTwinIcon=function(twinID){
     return null;
 }
 
+singleModelTwinsList.prototype.clearTwins = function () {
+    this.listDOM.empty()
+    this.childTwins.length = 0
+    this.refreshName()
+}
 
 
 //--------------------------------------------------------------------------------------

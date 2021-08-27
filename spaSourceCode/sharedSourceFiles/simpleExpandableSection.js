@@ -19,6 +19,11 @@ function simpleExpandableSection(titleStr,parentDOM,options) {
     this.callBack_change=(status)=>{}
 }
 
+simpleExpandableSection.prototype.deleteSelf=function(){
+    this.headerDOM.remove()
+    this.listDOM.remove()
+}
+
 simpleExpandableSection.prototype.expand=function(){
     this.listDOM.addClass("w3-show")
     this.triangle.addClass("fa-caret-down")

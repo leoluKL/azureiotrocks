@@ -1,6 +1,7 @@
 const globalCache = require("../sharedSourceFiles/globalCache")
 const newTwinDialog=require("../sharedSourceFiles/newTwinDialog");
 const simpleConfirmDialog=require("../sharedSourceFiles/simpleConfirmDialog")
+const simpleSelectMenu=require("../sharedSourceFiles/simpleSelectMenu")
 const msalHelper=require("../msalHelper")
 
 function topologyDOM_menu(parentTopologyDOM){
@@ -138,7 +139,7 @@ topologyDOM_menu.prototype.addMenuItemsForEditing = function () {
                 if(collection.length==1){
                     var ele=collection[0]
                     if(ele.data && ele.data("originalInfo").simNodeName){
-                        this.parentTopologyDOM.deleteSimNode(ele.data("originalInfo"))
+                        this.parentTopologyDOM.deleteSimNode(ele)
                         return
                     }
                 }
@@ -260,6 +261,15 @@ topologyDOM_menu.prototype.addMenuItemsForOthers = function () {
     ])
 }
 
+topologyDOM_menu.prototype.getAllTags = function(){
+    var tags={}
+    for(var twinID in globalCache.DBTwins){
+        var aDBTwin=globalCache.DBTwins[twinID]
+        var tag=aDBTwin.groupTag
+        if(tag!=null) tags[tag]=1
+    }
+    return tags
+}
 
 topologyDOM_menu.prototype.setGroupTag=function(nodesIDArr){
     var dialog=new simpleConfirmDialog()
@@ -270,6 +280,10 @@ topologyDOM_menu.prototype.setGroupTag=function(nodesIDArr){
     dialog.show({"width":"320px"},{
         "title":"Assign Group Tag",
         "customDrawing":(parentDOM)=>{
+            var currentTags=new simpleSelectMenu("Use a existing group tag or fill a new one below")
+            parentDOM.append(currentTags.DOM)
+            var tags=this.getAllTags()
+            for(var atag in tags) currentTags.addOption(atag)
             dialog.tagInput=$('<input type="text" style="margin:8px 0;padding:2px;width:290px;outline:none;display:inline" placeholder="Tag"/>').addClass("w3-input w3-border");
             parentDOM.append(dialog.tagInput)
             dialog.tagInput.on('keyup', function (e) {
@@ -277,6 +291,9 @@ topologyDOM_menu.prototype.setGroupTag=function(nodesIDArr){
                     sendTagReqest(dialog.tagInput.val())
                 }
             });
+            currentTags.callBack_clickOption=(optionText,optionValue)=>{
+                dialog.tagInput.val(optionText)
+            }
         },
         "buttons":[
             {

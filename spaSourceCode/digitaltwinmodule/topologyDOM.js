@@ -272,13 +272,23 @@ topologyDOM.prototype.loadInBound=async function(collection) {
     }
 }
 
-topologyDOM.prototype.deleteSimNode=function(simNodeInfo){
-    this.simDataSourceManager.deleteSimNode(simNodeInfo)
+topologyDOM.prototype.deleteSimNode=function(ele){
+    this.simDataSourceManager.deleteSimNode(ele)
 }
 
 
 topologyDOM.prototype.deleteElementsArray=async function(arr) {
     if (arr.length == 0) return;
+    //clear simulation node first
+    arr.forEach(ele=>{
+        var dbTwin=globalCache.getSingleDBTwinByName(ele.id())
+        for(var simNodeID in dbTwin.simulate){
+            var simNode=this.core.nodes("#"+simNodeID)
+            if(simNode) this.simDataSourceManager.deleteSimNode(simNode) 
+        }
+    })
+
+    //then start deleting the real twins
     var relationsArr = []
     var twinIDArr = []
     var twinIDs = {}

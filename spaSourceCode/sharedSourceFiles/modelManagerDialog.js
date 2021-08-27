@@ -714,10 +714,26 @@ modelManagerDialog.prototype.listModels=async function(shouldBroadcast){
         this.modelList.append(zeroModelItem)
         zeroModelItem.css("cursor","default")
 
-        //var createSampleModelsButton = $('<button class="w3-button w3-amber w3-hover-pink w3-border" style="margin:10%;font-size:1em">Create Sample Models</button>')
-        //this.modelList.append(createSampleModelsButton) 
-        //createSampleModelsButton.on("click", () => { }) 
-    
+        var createSampleModelsButton = $('<button class="w3-button w3-amber w3-hover-pink w3-border" style="margin:10%;font-size:1em">Create Sample Models</button>')
+        this.modelList.append(createSampleModelsButton) 
+        createSampleModelsButton.on("click", async () => {
+            createSampleModelsButton.hide()
+            var nameSpaceStr = msalHelper.userName.replaceAll(" ", "_")
+            if (nameSpaceStr == "") {
+                var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                var charactersLength = characters.length;
+                for (var i = 0; i < 6; i++) {
+                    nameSpaceStr += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+            }
+            try {
+                await msalHelper.callAPI("digitaltwin/importModels", "POST", {"models":this.sampleModelsStr(nameSpaceStr)},"withProjectID")
+                this.listModels("shouldBroadCast")
+            }catch(e){
+                console.log(e)
+                if(e.responseText) alert(e.responseText)
+            } 
+        }) 
     }else{
         this.tree = new simpleTree(this.modelList, {
             "leafNameProperty": "displayName"
@@ -763,5 +779,9 @@ modelManagerDialog.prototype.rxMessage=function(msgPayload){
     if(msgPayload.message=="ADTModelEdited") this.listModels("shouldBroadcast")
 }
 
+modelManagerDialog.prototype.sampleModelsStr=function(randomeNameSpace){
+    var sampleStr='[{"@id":"dtmi:PID1:reducer;1","@context":["dtmi:dtdl:context;2"],"@type":"Interface","displayName":"Reducer","contents":[{"@type":"Property","name":"upstreamSize","schema":"float"},{"@type":"Relationship","name":"pipeConnect"},{"@type":"Property","name":"downstreamSize","schema":"float"},{"@type":"Property","name":"type","schema":{"@type":"Enum","valueSchema":"string","enumValues":[{"name":"concentric","enumValue":"concentric"},{"name":"eccentric","enumValue":"eccentric"}]}},{"@type":"Property","name":"height","schema":"float"},{"@type":"Property","name":"thickness","schema":"float"}],"extends":[]},{"@id":"dtmi:PID1:pressureTransmitter;1","@context":["dtmi:dtdl:context;2"],"@type":"Interface","displayName":"Pressure Transmitter","contents":[{"@type":"Property","name":"pressure","schema":"float"},{"@type":"Relationship","name":"sensing"},{"@type":"Property","name":"unit","schema":"string"},{"@type":"Property","name":"type","schema":{"@type":"Enum","valueSchema":"string","enumValues":[{"name":"analog","enumValue":"analog"},{"name":"digital","enumValue":"digital"}]}},{"@type":"Property","name":"model","schema":"string"}],"extends":[]},{"@id":"dtmi:PID1:mixingReactor;1","@context":["dtmi:dtdl:context;2"],"@type":"Interface","displayName":"Mixing Reactor","contents":[{"@type":"Relationship","name":"pipeConnect"},{"@type":"Property","name":"volume","schema":"double"},{"@type":"Property","name":"temperature","schema":"double"},{"@type":"Property","name":"pressure","schema":"double"},{"@type":"Property","name":"model","schema":"string"},{"@type":"Property","name":"type","schema":{"@type":"Enum","valueSchema":"string","enumValues":[{"name":"CSTR","enumValue":"CSTR"},{"name":"PFR","enumValue":"PFR"},{"name":"Catalytic","enumValue":"Catalytic"}]}}],"extends":[]},{"@id":"dtmi:PID1:packedColumn;1","@context":["dtmi:dtdl:context;2"],"@type":"Interface","displayName":"Packed Column","contents":[{"@type":"Relationship","name":"pipeConnect"},{"@type":"Property","name":"volume","schema":"double"},{"@type":"Property","name":"temperature","schema":"double"},{"@type":"Property","name":"pressure","schema":"double"},{"@type":"Property","name":"model","schema":"string"}],"extends":[]},{"@id":"dtmi:PID1:vessel;1","@context":["dtmi:dtdl:context;2"],"@type":"Interface","displayName":"Vessel","contents":[{"@type":"Relationship","name":"pipeConnect"},{"@type":"Property","name":"volume","schema":"double"},{"@type":"Property","name":"temperature","schema":"double"},{"@type":"Property","name":"pressure","schema":"double"},{"@type":"Property","name":"model","schema":"string"}],"extends":[]},{"@id":"dtmi:PID1:motorValve;1","@context":["dtmi:dtdl:context;2"],"@type":"Interface","displayName":"Motor Valve","contents":[{"@type":"Relationship","name":"pipeConnect"},{"@type":"Property","name":"size","schema":"double"},{"@type":"Property","name":"ports","schema":"integer"}],"extends":[]},{"@id":"dtmi:PID1:oneToOne;1","@context":["dtmi:dtdl:context;2"],"@type":"Interface","displayName":"oneToOne","contents":[{"@type":"Relationship","name":"pipeConnect"},{"@type":"Property","name":"model","schema":"string"}],"extends":[]},{"@id":"dtmi:PID1:oneToOptionalMulti;1","@context":["dtmi:dtdl:context;2"],"@type":"Interface","displayName":"oneToOptionalMulti","contents":[{"@type":"Relationship","name":"pipeConnect"},{"@type":"Property","name":"model","schema":"string"}],"extends":[]}]'
+    return sampleStr.replaceAll(":PID1:",":"+randomeNameSpace+":")
+}
 
 module.exports = new modelManagerDialog();

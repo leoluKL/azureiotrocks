@@ -25,22 +25,70 @@ twinsList.prototype.findSingleModelTwinsListByModelID=function(modelID){
     return null;
 }
 
-twinsList.prototype.refill=function(){
-    this.DOM.empty()
-    this.singleModelTwinsListArr.forEach(ele=>{ele.removeMemoryReference()})
+twinsList.prototype.clearAllTwins=function(){
+    this.singleModelTwinsListArr.forEach(oneTwinsList=>{
+        oneTwinsList.clearTwins()
+    })
+}
 
-    this.singleModelTwinsListArr.length=0
 
-    for(var ind in modelAnalyzer.DTDLModels){
-        this.singleModelTwinsListArr.push(new singleModelTwinsList(modelAnalyzer.DTDLModels[ind],this,this.DOM))
+twinsList.prototype.refreshModels=function(){
+    var modelsData={}
+    for(var modelID in modelAnalyzer.DTDLModels){
+        var oneModel=modelAnalyzer.DTDLModels[modelID]
+        modelsData[oneModel["displayName"]] = oneModel
     }
+    //delete all twinsList of deleted models
+    var arr=[].concat(this.singleModelTwinsListArr)
+    arr.forEach((gnode)=>{
+        if(modelsData[gnode.name]==null){
+            //delete this group node
+            gnode.deleteSelf()
+        }
+    })
 
+    //then add all group nodes that to be added
+    var currentModelNameArr=[]
+    this.singleModelTwinsListArr.forEach((gnode)=>{currentModelNameArr.push(gnode.name)})
+
+    var actualModelNameArr=[]
+    for(var ind in modelsData) actualModelNameArr.push(ind)
+    actualModelNameArr.sort(function (a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()) });
+
+    for(var i=0;i<actualModelNameArr.length;i++){
+        var modelName=actualModelNameArr[i]
+        if(i<currentModelNameArr.length && currentModelNameArr[i]==modelName) continue
+        var modelID=globalCache.modelNameMapToID[modelName]
+        this.singleModelTwinsListArr.push(new singleModelTwinsList(modelAnalyzer.DTDLModels[modelID],this,this.DOM))
+        currentModelNameArr.splice(i, 0, modelID);
+    }
+}
+twinsList.prototype.loadStartSelection=function(twinIDs,modelIDs,replaceOrAppend){
+    if(replaceOrAppend=="replace") this.clearAllTwins()
+    this.refreshModels()
+    var twinsListSet={}
+    this.singleModelTwinsListArr.forEach(aTwinsList=>{
+        twinsListSet[aTwinsList.info["@id"]]=aTwinsList
+    })
+
+    var twinsGroupByModel={}
+    twinIDs.forEach(aTwinID=>{
+        var dbTwin=globalCache.DBTwins[aTwinID]
+        if(!twinsGroupByModel[dbTwin.modelID])twinsGroupByModel[dbTwin.modelID]=[]
+        twinsGroupByModel[dbTwin.modelID].push(dbTwin)
+    })
+
+    for(var modelID in twinsGroupByModel){
+        var aTwinsList = twinsListSet[modelID]
+        if(!aTwinsList) return;
+        aTwinsList.addTwinArr(twinsGroupByModel[modelID], "skipRepeat")    
+    }
 }
 
 twinsList.prototype.rxMessage=function(msgPayload){
-    if(msgPayload.message=="projectIsChanged"){
-        this.refill()
-    }else if(msgPayload.message=="visualDefinitionChange"){
+    if(msgPayload.message=="startSelection_replace") this.loadStartSelection(msgPayload.twinIDs,msgPayload.modelIDs,"replace")
+    else if(msgPayload.message=="startSelection_append") this.loadStartSelection(msgPayload.twinIDs,msgPayload.modelIDs,"append")
+    else if(msgPayload.message=="visualDefinitionChange"){
         if(msgPayload.modelID)  var theSingleModelTwinsList=this.findSingleModelTwinsListByModelID(msgPayload.modelID)
         theSingleModelTwinsList.refreshTwinsIcon()
     }else if(msgPayload.message=="ModelIoTSettingEdited"){

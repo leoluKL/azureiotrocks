@@ -1,6 +1,6 @@
 const moduleSwitchDialog=require("../sharedSourceFiles/moduleSwitchDialog")
 const modelManagerDialog = require("../sharedSourceFiles/modelManagerDialog")
-const projectSelectionDialog = require("./projectSelectionDialog")
+const startSelectionDialog = require("../sharedSourceFiles/startSelectionDialog")
 
 function deviceManagementMainToolbar() {
 }
@@ -14,7 +14,7 @@ deviceManagementMainToolbar.prototype.render = function () {
     $("#MainToolbar").append(moduleSwitchDialog.modulesSwitchButton,this.switchProjectBtn,this.modelIOBtn)
 
     modelManagerDialog.showRelationVisualizationSettings=false
-    this.switchProjectBtn.on("click",()=>{ projectSelectionDialog.popup() })
+    this.switchProjectBtn.on("click",()=>{ startSelectionDialog.popup() })
     this.modelIOBtn.on("click",()=>{ modelManagerDialog.popup() })
 }
 
