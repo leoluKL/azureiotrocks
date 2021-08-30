@@ -7,6 +7,7 @@ function routerDeviceManagement(){
     this.useRoute("provisionIoTDeviceTwin","isPost")
     this.useRoute("deprovisionIoTDeviceTwin","isPost")
     this.useRoute("unregisterIoTDevices","isPost")
+    this.useRoute("geIoTDevicesConnectionString","isPost")
 }
 
 routerDeviceManagement.prototype.useRoute=function(routeStr,isPost){
@@ -27,6 +28,15 @@ routerDeviceManagement.prototype.provisionIoTDeviceTwin = async function(req,res
     try{
         var provisionedTwinDoc = await this._provisionIoTDeviceTwin(twinID,tags,req.body.desiredInDeviceTwin,projectID)
         res.send(provisionedTwinDoc)
+    }catch(e){
+        res.status(400).send(e.response.body);
+    }
+}
+
+routerDeviceManagement.prototype.geIoTDevicesConnectionString = async function(req,res){
+    try{
+        var re=await got.post(process.env.iothuboperationAPIURL+"controlPlane/getDevicesConnectionString", {json:req.body.devicesID,responseType: 'json'});
+        res.send(re.body)
     }catch(e){
         res.status(400).send(e.response.body);
     }
