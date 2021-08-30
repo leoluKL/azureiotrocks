@@ -7,6 +7,8 @@ function routerControlPlane(){
     this.useRoute("deprovisionDevice","post")
     this.useRoute("updateDeviceDesiredProperties","post")
 
+    this.useRoute("getDevicesConnectionString","post")
+
     this.useRoute("test")
 }
 
@@ -25,6 +27,31 @@ routerControlPlane.prototype.deprovisionDevice =async function(req,res) {
         res.status(400).send(e.message)
     }
 }
+
+routerControlPlane.prototype.getDevicesConnectionString =async function(req,res) {
+    var devicesID=req.body
+    var promiseArr=[]
+    devicesID.forEach(oneDevID=>{
+        promiseArr.push(iothubHelper.iothubRegistry.get(oneDevID))
+    })
+
+    var resultObj={}
+    try{
+        var results=await Promise.allSettled(promiseArr);
+        results.forEach((oneSet,index)=>{
+            if(oneSet.status=="fulfilled") {
+                var oneResult=oneSet.value.responseBody
+                var devID= oneResult.deviceId
+                var authDetail=oneResult.authentication
+                resultObj[devID]=[`HostName=${process.env.IoTHubEndpoint};DeviceId=${devID};SharedAccessKey=${authDetail.symmetricKey.primaryKey}`,`HostName=${process.env.IoTHubEndpoint};DeviceId=${devID};SharedAccessKey=${authDetail.symmetricKey.secondaryKey}`]
+            }
+        })
+        res.send(resultObj)
+    }catch(e){
+        res.status(400).send(e.message);
+    }
+}
+
 
 routerControlPlane.prototype.provisionDevice =async function(req,res) {
     var deviceID=req.body.deviceID
