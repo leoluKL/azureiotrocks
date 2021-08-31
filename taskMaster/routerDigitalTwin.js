@@ -36,6 +36,8 @@ function routerDigitalTwin(){
     this.useRoute("serviceWorkerUnsubscription","post")
     this.useRoute("updateTwin","isPost")
     this.useRoute("setTwinsGroupTag","post")
+
+    this.useRoute("queryHistoryData","post")
 }
 
 
@@ -138,6 +140,15 @@ routerDigitalTwin.prototype.updateFormula =async function(req,res) {
     res.end()
 }
 
+routerDigitalTwin.prototype.queryHistoryData =async function(req,res) {
+    var reqBody=req.body
+    try{
+        var {body} = await got.post(process.env.dboperationAPIURL+"queryData/queryHistoryData", {json:reqBody,responseType: 'json'});
+        res.send(body)
+    }catch(e){
+        res.status(e.response.statusCode).send(e.response.body);
+    }
+}
 
 routerDigitalTwin.prototype.fetchProjectTwinsAndVisualData =async function(req,res) {
     var reqBody=req.body
