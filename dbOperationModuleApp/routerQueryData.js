@@ -7,6 +7,7 @@ function routerQueryData(){
     this.useRoute("projectModels","post")
     this.useRoute("projectTwinsAndVisual","post")
     this.useRoute("checkSimulationDataSource","post")
+    this.useRoute("queryHistoryData","post")
 }
 
 routerQueryData.prototype.useRoute=function(routeStr,isPost){
@@ -27,6 +28,24 @@ routerQueryData.prototype.userData =async function(req,res) {
         res.status(400).send(e.message)
     }
 }
+
+
+routerQueryData.prototype.queryHistoryData =async function(req,res) {
+    var twinID=req.body.twinID
+    var fromTime=req.body.fromTime
+    var endTime=req.body.endTime
+    var limitRows=req.body.limitRows
+    var propertyPath=req.body.propertyPath
+    
+    try{
+        var queryStr=`SELECT c["value"],c["time"] FROM c where c.twinID='${twinID}' and c.path='${propertyPath}' and c.time>'${fromTime}' and c.time<'${endTime}' order by c.time desc OFFSET 0 LIMIT ${limitRows}`
+        var docs=await cosmosdbhelper.query("twinhistorydata",queryStr)
+        res.send(docs)
+    }catch(e){
+        res.status(400).send(e.message)
+    }
+}
+
 
 routerQueryData.prototype.checkSimulationDataSource =async function(req,res) {
     var twinID=req.body.twinID
