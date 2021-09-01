@@ -17,8 +17,8 @@ There are various ways to start exploring journey:
 # dtmi:[name space]:[model ID]:[version numberic]
 ```
 -   By default digital twins are shown as a gray color circle. You can customize appearance in "Digital Twin Models" window for different digital twin models.
--   Now there are be a few digital twin models in the left panel. Click the plus button of a digital twin model to create twins. Twins will be shown in the middle topology view.
--   Practise basic operatoins in topology view such as zooming, dragging, scaling/rotating twins etc. Undo and redo is available by pressing ctrl+u and ctrl+y.
+-   Now there should be a few digital twin models in the left panel. Click the plus button of a digital twin model to create twins. Twins will be shown in the middle topology view.
+-   Practise basic operatoins in topology vzew such as zooming, dragging, scaling/rotating twins etc. Undo and redo is available by pressing ctrl+z and ctrl+y.
 -   Right click digital twins to access other operations such as connecting twins and highlighting twins' inbound or outbound peers. 
 -   Modify digital twin's attributes by using information panel on the right side
 -   Right click connecting line between twins to add bend point and adjust connection shape. Save current digital twins schematic layout by pressing "ctrl+s" and typing layout name. You can recall any saved layout from layout button in top side toolbar
