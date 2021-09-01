@@ -281,10 +281,12 @@ topologyDOM.prototype.deleteElementsArray=async function(arr) {
     if (arr.length == 0) return;
     //clear simulation node first
     arr.forEach(ele=>{
+        if(!ele.isNode()) return;
         var dbTwin=globalCache.getSingleDBTwinByName(ele.id())
-        for(var simNodeID in dbTwin.simulate){
-            var simNode=this.core.nodes("#"+simNodeID)
-            if(simNode) this.simDataSourceManager.deleteSimNode(simNode) 
+        if(!dbTwin || !dbTwin.simulate) return;
+        for (var simNodeID in dbTwin.simulate) {
+            var simNode = this.core.nodes("#" + simNodeID)
+            if (simNode) this.simDataSourceManager.deleteSimNode(simNode)
         }
     })
 
