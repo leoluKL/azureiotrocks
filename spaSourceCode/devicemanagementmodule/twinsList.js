@@ -110,6 +110,7 @@ twinsList.prototype.rxMessage=function(msgPayload){
             var twinID=msgBody.twinID
             var twinDBInfo=globalCache.DBTwins[twinID]
             var theSingleModelTwinsList=this.findSingleModelTwinsListByModelID(twinDBInfo.modelID)
+            theSingleModelTwinsList.refreshName()
             var theTwinIcon=theSingleModelTwinsList.getSingleTwinIcon(twinID)
             if(theTwinIcon) theTwinIcon.redrawIoTState()
         }
