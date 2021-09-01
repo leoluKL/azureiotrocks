@@ -96,6 +96,11 @@ twinsList.prototype.rxMessage=function(msgPayload){
         theSingleModelTwinsList.refreshTwinsInfo()
         theSingleModelTwinsList.refreshName()
         theSingleModelTwinsList.refreshTwinsIoTStatus()
+    }else if(msgPayload.message=="TwinIoTProvisioned"||msgPayload.message=="TwinIoTDeprovisioned"){
+        if(msgPayload.modelID)  var theSingleModelTwinsList=this.findSingleModelTwinsListByModelID(msgPayload.modelID)
+        theSingleModelTwinsList.refreshTwinsIoTStatus(msgPayload.twinID)
+        theSingleModelTwinsList.refreshTwinsIcon(msgPayload.twinID) 
+        theSingleModelTwinsList.refreshName()
     }else if(msgPayload.message=="addNewTwin"){
         var theSingleModelTwinsList=this.findSingleModelTwinsListByModelID(msgPayload.DBTwinInfo.modelID)
         theSingleModelTwinsList.addTwin(msgPayload.DBTwinInfo) 

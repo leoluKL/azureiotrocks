@@ -13,10 +13,8 @@
     "dev": "npm-run-all --parallel bundleSPAMain bundleDigitaltwinModule bundleDevManagementModule"
   },
   "dependencies": {
-    "cytoscape": "3.18.1",
     "cytoscape-context-menus": "^4.0.0",
     "cytoscape-undo-redo": "^1.3.3",
-    "jquery": "^3.6.0",
     "konva": "^7.0.3"
   }
 }

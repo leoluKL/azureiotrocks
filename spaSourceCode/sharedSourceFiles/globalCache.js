@@ -84,7 +84,14 @@ globalCache.prototype.storeSingleADTTwin=function(oneNode){
 
 
 globalCache.prototype.storeSingleDBTwin=function(DBTwin){
-    this.DBTwins[DBTwin["id"]]=DBTwin
+    var originalDBTwin=this.DBTwins[DBTwin["id"]]
+    if(!originalDBTwin){
+        originalDBTwin={}
+        this.DBTwins[DBTwin["id"]]=originalDBTwin
+    }
+    for(var ind in originalDBTwin) delete originalDBTwin[ind]
+    for(var ind in DBTwin) originalDBTwin[ind]=DBTwin[ind]
+
     this.twinIDMapToDisplayName[DBTwin["id"]]=DBTwin["displayName"]
     this.twinDisplayNameMapToID[DBTwin["displayName"]]=DBTwin["id"]
 }
@@ -410,7 +417,7 @@ globalCache.prototype.makeDOMDraggable=function(dom,ignoreChildDomType){
     })
 }
 
-globalCache.prototype.generateModelIcon = function (modelID,dimension,isFixSize) {
+globalCache.prototype.generateModelIcon = function (modelID,dimension,isFixSize,twinID) {
     var dbModelInfo = this.getSingleDBModelByID(modelID)
     var colorCode = "darkGray"
     var shape = "ellipse"
@@ -430,8 +437,15 @@ globalCache.prototype.generateModelIcon = function (modelID,dimension,isFixSize)
     var iconDOMDimension = Math.max(dimension, 20) //other wise it is too small to be in vertical middle of parent div
     var iconDOM = $("<div style='width:" + iconDOMDimension + "px;height:" + iconDOMDimension + "px;float:left;position:relative'></div>")
     if (dbModelInfo && dbModelInfo.isIoTDeviceModel) {
-        var iotDiv = $("<div class='w3-border' style='position:absolute;right:-5px;padding:0px 2px;top:-7px;border-radius: 3px;font-size:7px'>IoT</div>")
-        iconDOM.append(iotDiv)
+        var drawSmallIoTDiv=true
+        if(twinID){
+            var dbTwin=this.DBTwins[twinID]
+            if(dbTwin["IoTDeviceID"]==null) drawSmallIoTDiv=false
+        }
+        if(drawSmallIoTDiv){
+            var iotDiv = $("<div class='w3-border' style='position:absolute;right:-5px;padding:0px 2px;top:-7px;border-radius: 3px;font-size:7px'>IoT</div>")
+            iconDOM.append(iotDiv)
+        }
     }
 
     var imgSrc = encodeURIComponent(this.shapeSvg(shape, colorCode, secondColorCode))
@@ -453,6 +467,47 @@ globalCache.prototype.uuidv4=function() {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
+}
+
+globalCache.prototype.generateTelemetrySample = function(telemetryProperties){
+    var sampleObj={}
+    telemetryProperties.forEach(onep=>{
+        if(onep.type!="telemetry") return;
+        var pathArr=onep.path
+        var ptype=onep.ptype
+        
+        var theRoot=sampleObj
+        for(var i=0;i<pathArr.length;i++){
+            var str=pathArr[i]
+            if(i==pathArr.length-1) {
+                var valueSample=this.propertyTypeSampleValue(ptype)
+                theRoot[str]=valueSample
+            }else{
+                if(!theRoot[str])theRoot[str]={}
+                theRoot=theRoot[str]
+            }
+        }
+    })
+    return sampleObj
+}
+
+globalCache.prototype.propertyTypeSampleValue = function(ptype){
+    //["Enum","Object","boolean","date","dateTime","double","duration","float","integer","long","string","time"]
+    var mapping={
+        "enumerator":"stringValue"
+        ,"string":"stringValue"
+        ,"boolean":true
+        ,"dateTime":new Date().toISOString()
+        ,"date": (new Date().toISOString()).split("T")[0]
+        ,"double":0.1
+        ,"float":0.1
+        ,"duration":"PT16H30M"
+        ,"integer":0
+        ,"long":0
+        ,"time": "T"+((new Date().toISOString()).split("T")[1])
+    }
+    if(mapping[ptype]!=null) return mapping[ptype]
+    else return "unknown"
 }
 
 module.exports = new globalCache();

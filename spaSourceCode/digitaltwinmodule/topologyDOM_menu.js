@@ -253,7 +253,9 @@ topologyDOM_menu.prototype.addMenuItemsForOthers = function () {
                 var collection=this.node_changeSelectionWhenClickElement(e.target)
                 var n=collection[0]
                 if(globalCache.clipboardNodeStyle){
-                    this.parentTopologyDOM.visualManager.applyNodeScaleRotate(n.id(),globalCache.clipboardNodeStyle.scaleFactor,globalCache.clipboardNodeStyle.rotateAngle)
+                    //'useScaleRotate' is defined in customized cytoscape edge editing addon module. I use it here so this action is undoable
+                    var oldScaleRotate={scale:n.data("scaleFactor")||1,rotate:n.data("rotateAngle")||0}
+                    this.core.undoRedo().do('useScaleRotate', {"node":n,"newScaleRotate":{"scale":globalCache.clipboardNodeStyle.scaleFactor,"rotate":globalCache.clipboardNodeStyle.rotateAngle},"oldScaleRotate":oldScaleRotate} );
                 }
                 
             }

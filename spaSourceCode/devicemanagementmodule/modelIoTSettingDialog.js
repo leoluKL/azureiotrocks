@@ -355,47 +355,8 @@ modelIoTSettingDialog.prototype.drawIoTSelectDropdown=function(td,IoTsettingObj,
     else aSelectMenu.triggerOptionIndex(0)
 }
 
-
-
-modelIoTSettingDialog.prototype.propertyTypeSampleValue = function(ptype){
-    //["Enum","Object","boolean","date","dateTime","double","duration","float","integer","long","string","time"]
-    var mapping={
-        "enumerator":"stringValue"
-        ,"string":"stringValue"
-        ,"boolean":true
-        ,"dateTime":new Date().toISOString()
-        ,"date": (new Date().toISOString()).split("T")[0]
-        ,"double":0.1
-        ,"float":0.1
-        ,"duration":"PT16H30M"
-        ,"integer":0
-        ,"long":0
-        ,"time": "T"+((new Date().toISOString()).split("T")[1])
-    }
-    if(mapping[ptype]!=null) return mapping[ptype]
-    else return "unknown"
-}
-
 modelIoTSettingDialog.prototype.refreshIoTTelemetrySample = function(){
-    var sampleObj={}
-    this.iotSettingsArr.forEach(onep=>{
-        if(onep.type!="telemetry") return;
-        var pathArr=onep.path
-        var ptype=onep.ptype
-        
-        var theRoot=sampleObj
-        for(var i=0;i<pathArr.length;i++){
-            var str=pathArr[i]
-            if(i==pathArr.length-1) {
-                var valueSample=this.propertyTypeSampleValue(ptype)
-                theRoot[str]=valueSample
-            }else{
-                if(!theRoot[str])theRoot[str]={}
-                theRoot=theRoot[str]
-            }
-        }
-    })
-
+    var sampleObj=globalCache.generateTelemetrySample(this.iotSettingsArr)
     var label=this.sampleTelemetryDiv.find(':first-child');
     var script= $('<pre style="color:gray;margin:0px">'+JSON.stringify(sampleObj,null,2)+'</pre>')
     this.sampleTelemetryDiv.empty().append(label,script)

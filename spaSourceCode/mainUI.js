@@ -48,7 +48,7 @@ mainUI.prototype.showModuleButtons=function(){
 
     var deviceManageBtn=$('<button class="w3-button w3-hover-amber w3-ripple w3-card w3-padding-16 w3-margin-bottom" style="width:550px;display:block">Device Management</button>')
     var adtUIBtn=$('<button class="w3-button w3-hover-amber w3-ripple w3-card w3-padding-16 w3-margin-bottom" style="width:550px;display:block">Digital Twin</button>')
-    var eventLogBtn=$('<button class="w3-button w3-hover-amber w3-ripple w3-card w3-padding-16 w3-margin-bottom" style="width:550px;display:block">Event Log</button>')
+    var eventLogBtn=$('<button class="w3-disabled w3-button w3-hover-amber w3-ripple w3-card w3-padding-16 w3-margin-bottom" style="width:550px;display:block">Event Log</button>')
     var logoutBtn=$('<button class="w3-button w3-black w3-ripple w3-card w3-padding-16 w3-margin-bottom" style="width:350px;display:block;margin-left:100px;margin-top:32px">Sign Out</button>')
     
     $('#headerPart').append($('<div style="width:50%" class="w3-container  w3-cell "></div><div id="middleDIV" class="w3-container w3-cell w3-cell-middle" style="height:50vh"></div><div style="width:50%" class="w3-container w3-cell">'))
@@ -70,13 +70,11 @@ mainUI.prototype.showModuleButtons=function(){
     })
 
     deviceManageBtn.on("click",(e)=>{
-        if(e.ctrlKey) window.location.replace("devicemanagement.html");
-        else window.open("devicemanagement.html", "_blank");
+        window.location.replace("devicemanagement.html");
     })
 
     eventLogBtn.on("click",(e)=>{
-        if(e.ctrlKey) window.location.replace("eventlogmodule.html");
-        else window.open("eventlogmodule.html", "_blank");
+        //window.location.replace("eventlogmodule.html");
     })
  
     //if this page is open in localhost environment, add three buttons to allow pages opening and using local running api app instead

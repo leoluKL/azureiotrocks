@@ -1,7 +1,8 @@
 const globalCache=require('./globalCache')
-function simpleConfirmDialog(){
+function simpleConfirmDialog(onlyHideWhenClose){
     this.DOM = $('<div style="position:absolute;top:50%;background-color:white;left:50%;transform: translateX(-50%) translateY(-50%);z-index:102" class="w3-card-4"></div>')
     globalCache.makeDOMDraggable(this.DOM)
+    this.onlyHideWhenClose=onlyHideWhenClose
     //this.DOM.css("overflow","hidden")
 }
 
@@ -34,7 +35,8 @@ simpleConfirmDialog.prototype.show=function(cssOptions,otherOptions){
 }
 
 simpleConfirmDialog.prototype.close=function(){
-    this.DOM.remove()
+    if(this.onlyHideWhenClose) this.DOM.hide()
+    else this.DOM.remove()
 }
 
 module.exports = simpleConfirmDialog;

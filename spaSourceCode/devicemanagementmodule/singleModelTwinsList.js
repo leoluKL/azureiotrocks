@@ -59,15 +59,21 @@ singleModelTwinsList.prototype.refreshName=function(){
 
     var countTwins=0
     var countIoTDevices=0
+    var offlineIoTDevices=0
     this.childTwins.forEach(aTwin=>{
         countTwins++
-        if(aTwin.twinInfo["IoTDeviceID"]!=null) countIoTDevices++
+        if(aTwin.twinInfo["IoTDeviceID"]!=null) {
+            countIoTDevices++
+            if(!aTwin.twinInfo.connectState) offlineIoTDevices++
+        }
     })
     var numberlabel=$("<label style='display:inline;font-size:9px;padding:2px 4px;font-weight:normal;border-radius: 2px;'>"+countTwins+" twins</label>")
     if(countTwins==0) numberlabel.addClass("w3-gray")
     else numberlabel.addClass("w3-orange")
 
-    var numberlabel2=$("<label class='w3-lime' style='display:inline;font-size:9px;padding:2px 4px;font-weight:normal;border-radius: 2px;'>"+countIoTDevices+" IoT Devices</label>")
+    var str=countIoTDevices+" IoT Devices"
+    if(offlineIoTDevices!=0) var offlineLbl=$(`<label class='w3-red' style='display:inline;font-size:9px;padding:2px 4px;font-weight:normal;border-radius: 2px;'>${offlineIoTDevices} Offline</label>`)
+    var numberlabel2=$("<label class='w3-lime' style='display:inline;font-size:9px;padding:2px 4px;font-weight:normal;border-radius: 2px;'>"+str+"</label>")
     
     var addButton= $('<button class="w3-ripple w3-bar-item w3-button w3-red w3-hover-pink w3-right" style="margin-top:2px;font-size:1.2em;padding:4px 8px">+</button>')
     addButton.on("click",(e)=>{
@@ -89,20 +95,32 @@ singleModelTwinsList.prototype.refreshName=function(){
 
 
     this.oneSection.headerTextDOM.append(nameDiv,numberlabel)
-    if(singleDBModel && singleDBModel.isIoTDeviceModel) this.oneSection.headerTextDOM.append(numberlabel2)
+    if(singleDBModel && singleDBModel.isIoTDeviceModel){
+        this.oneSection.headerTextDOM.append(numberlabel2)
+        if(offlineLbl) this.oneSection.headerTextDOM.append(offlineLbl)
+    } 
     this.oneSection.headerTextDOM.append(iotSetButton,addButton)
 }
 
-singleModelTwinsList.prototype.refreshTwinsIcon=function(){
-    this.childTwins.forEach(aTwin=>{aTwin.redrawIcon()})
+singleModelTwinsList.prototype.refreshTwinsIcon=function(twinID){
+    this.childTwins.forEach(aTwin=>{
+        if(twinID!=null && aTwin.twinInfo.id!=twinID) return;
+        aTwin.redrawIcon()
+    })
 }
 
-singleModelTwinsList.prototype.refreshTwinsIoTStatus=function(){
-    this.childTwins.forEach(aTwin=>{aTwin.redrawIoTState()})
+singleModelTwinsList.prototype.refreshTwinsIoTStatus=function(twinID){
+    this.childTwins.forEach(aTwin=>{
+        if(twinID!=null && aTwin.twinInfo.id!=twinID) return;
+        aTwin.redrawIoTState()
+    })
 }
 
-singleModelTwinsList.prototype.refreshTwinsInfo=function(){
-    this.childTwins.forEach(aTwin=>{aTwin.refreshTwinInfo()})
+singleModelTwinsList.prototype.refreshTwinsInfo=function(twinID){
+    this.childTwins.forEach(aTwin=>{
+        if(twinID!=null && aTwin.twinInfo.id!=twinID) return;
+        aTwin.refreshTwinInfo()
+    })
 }
 
 singleModelTwinsList.prototype.getSingleTwinIcon=function(twinID){
@@ -130,7 +148,7 @@ function singleTwinIcon(singleDBTwin,parentModelTwinsList) {
     this.IoTLable=$('<span class="w3-text-amber fa-stack fa-xs" style="opacity: 100;"><i class="fas fa-signal fa-stack-2x"></i><i class="fas fa-slash fa-stack-2x"></i></span>')
 
     this.iconDOM=$("<div style='width:30px;height:30px;margin:0 auto;margin-top:10px;position:relative'></div>")
-    this.nameDOM=$("<div style='word-break: break-word;width:100%;text-align:center;margin-top:5px'>"+this.twinInfo.displayName+"</div>")
+    this.nameDOM=$("<div style='word-break: break-word;width:100%;text-align:center;margin-top:5px;font-size:0.8em'>"+this.twinInfo.displayName+"</div>")
     this.redrawIcon()
     this.redrawIoTState()
     parentModelTwinsList.listDOM.append(this.DOM)
@@ -199,7 +217,7 @@ singleTwinIcon.prototype.redrawIoTState=function(){
 singleTwinIcon.prototype.redrawIcon=function(){
     var modelID= this.twinInfo.modelID;
     this.iconDOM.empty()
-    var modelSymbol=globalCache.generateModelIcon(modelID,30,this.iconDOM)
+    var modelSymbol=globalCache.generateModelIcon(modelID,30,this.iconDOM,this.twinInfo.id)
     var size=modelSymbol.width()
     if(size>30) this.iconDOM.css({"width":size+"px","height":size+"px"})
     this.iconDOM.append(modelSymbol)
