@@ -1,3 +1,5 @@
-# UNDER CONSTRUCTION
+# Used Azure Services 
+# ARM Template
 
-![Architecture](/designFiles/architeture.drawio.svg)
+# Platform Architecture
+![Platform Architecture](/designFiles/architeture.drawio.svg)
