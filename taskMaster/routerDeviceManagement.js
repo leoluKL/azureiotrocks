@@ -117,14 +117,16 @@ routerDeviceManagement.prototype.changeModelIoTSettings = async function(req,res
     
     if(updatedModelDoc.isIoTDeviceModel){
         //provision each device to iot hub
+        var promiseArr_changeDesired=[]
+        var promiseArr_provision=[]
         for(var i=0;i<twins.length;i++){
             var aTwin=twins[i]
             var iotTwinID= aTwin.IoTDeviceID
-            if(iotTwinID!=null && iotTwinID!="") {
+            if(iotTwinID!=null && iotTwinID!="") { //existing iot devices need only updating desiredProperties
                 if(req.body.forceRefreshDeviceDesired){
                     var refreshDesiredPayload={"deviceID":iotTwinID,"desiredProperties":req.body.desiredInDeviceTwin}
                     try{
-                        await got.post(process.env.iothuboperationAPIURL+"controlPlane/updateDeviceDesiredProperties", {json:refreshDesiredPayload,responseType: 'json'});
+                        promiseArr_changeDesired.push(got.post(process.env.iothuboperationAPIURL+"controlPlane/updateDeviceDesiredProperties", {json:refreshDesiredPayload,responseType: 'json'}))
                     }catch(e){
                         console.error(e.response.body)
                     }
@@ -139,14 +141,23 @@ routerDeviceManagement.prototype.changeModelIoTSettings = async function(req,res
                 "project":projectID,
                 "modelID":updatedModelDoc.id
             }
-            try{
-                var provisionedTwinDoc = await this._provisionIoTDeviceTwin(twinID,iotDeviceTags,req.body.desiredInDeviceTwin,projectID)
-                returnDBTwins.push(provisionedTwinDoc)
-            }catch(e){
-                console.error(e.response.body)
-            }
+            promiseArr_provision.push(this._provisionIoTDeviceTwin(twinID,iotDeviceTags,req.body.desiredInDeviceTwin,projectID))
+        }
+
+        Promise.allSettled(promiseArr_changeDesired); // TODO: handle if desird property is not changed successfully
+
+        try{    
+            var results=await Promise.allSettled(promiseArr_provision)
+            results.forEach((oneSet,index)=>{
+                if(oneSet.status=="fulfilled") {
+                    returnDBTwins.push(oneSet.value)
+                }
+            })
+        }catch(e){
+            console.error(e.response.body)
         }
     }else{
+        var promiseArr_deprovision=[]
         //deprovision each device off iot hub
         for(var i=0;i<twins.length;i++){
             var aTwin=twins[i]
@@ -154,12 +165,18 @@ routerDeviceManagement.prototype.changeModelIoTSettings = async function(req,res
             if(iotTwinID==null || iotTwinID=="") {
                 continue; //the twin has been deprovisioned off iot hub
             }
-            try{
-                var deprovisionedTwinDoc = await this._deprovisionIoTDeviceTwin(aTwin.id,projectID)
-                returnDBTwins.push(deprovisionedTwinDoc)
-            }catch(e){
-                console.error(e.response.body)
-            }
+            promiseArr_deprovision.push(this._deprovisionIoTDeviceTwin(aTwin.id,projectID))
+        }
+
+        try{
+            var results=await Promise.allSettled(promiseArr_deprovision)
+            results.forEach((oneSet,index)=>{
+                if(oneSet.status=="fulfilled") {
+                    returnDBTwins.push(oneSet.value)
+                }
+            })
+        }catch(e){
+            console.error(e.response.body)
         }
     }
     res.send({"updatedModelDoc":updatedModelDoc,"DBTwins":returnDBTwins})
