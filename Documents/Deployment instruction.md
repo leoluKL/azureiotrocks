@@ -2,7 +2,7 @@
 AD B2C, Function Apps, App Service, Azure Digital Twin, Event Hub, IoT Hub, CosmosDB, Storage Account, Devop, Azure Maps
 
 # Platform Architecture
-![Platform Architecture](/designFiles/azureiotrocks_architeture.drawio)
+![Platform Architecture](/designFiles/azureiotrocks_architeture.drawio.svg)
 
 # ARM Template
 
