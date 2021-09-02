@@ -1,0 +1,69 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "IotHubs_azureiotrocksiothub_connectionString": {
+            "value": null
+        },
+        "IotHubs_azureiotrocksiothub_containerName": {
+            "value": null
+        },
+        "accounts_airmap1_name": {
+            "value": null
+        },
+        "profiles_azureiotrockscdn_name": {
+            "value": null
+        },
+        "sites_azureiotrocksfunctions_name": {
+            "value": null
+        },
+        "namespaces_azureiotrocks_name": {
+            "value": null
+        },
+        "IotHubs_azureiotrocksiothub_name": {
+            "value": null
+        },
+        "serverfarms_azureiotrocksfunctions_name": {
+            "value": null
+        },
+        "sites_azureiotrockstaskmastermodule_name": {
+            "value": null
+        },
+        "storageAccounts_azureiotrocksspa_name": {
+            "value": null
+        },
+        "sites_azureiotrocksdboperationmodule_name": {
+            "value": null
+        },
+        "sites_azureiotrocksdigitaltwinmodule_name": {
+            "value": null
+        },
+        "virtualNetworks_azureiotrocksvnet_name": {
+            "value": null
+        },
+        "databaseAccounts_azureiotrocksdb_name": {
+            "value": null
+        },
+        "components_azureiotrocksappinsight_name": {
+            "value": null
+        },
+        "sites_azureiotrocksiothuboperationmodule_name": {
+            "value": null
+        },
+        "serverfarms_azureiotrocksdigitaltwinmodule_name": {
+            "value": null
+        },
+        "storageAccounts_azureiotrocksfuncstorage_name": {
+            "value": null
+        },
+        "digitalTwinsInstances_azureiotrocksDT_name": {
+            "value": null
+        },
+        "privateDnsZones_privatelink_azurewebsites_net_name": {
+            "value": null
+        },
+        "workspaces_azureiotrocksappserviceconsolelog_name": {
+            "value": null
+        }
+    }
+}

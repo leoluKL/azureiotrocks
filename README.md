@@ -41,6 +41,7 @@ Some of the digital twins represent physical world assets. They can be sensors, 
 # Development
 -   [module and process flow document](Documents/AzureIoTRocks%20module%20and%20flow%20design.md) 
 -   [programming reference](Documents/Programming%20Reference.md)
+-   [calcualtion script guide](Documents/Twin_Calculation_Script_Guide.md)
 
 ## Built With
 
