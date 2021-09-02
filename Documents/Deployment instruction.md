@@ -10,8 +10,8 @@ AD B2C, Function Apps, App Service, Azure Digital Twin, Event Hub, IoT Hub, Cosm
 
 [Parameter File](parameters.json)
 
-![ARM Visualization](/DocumentsImages/ARM_visulization.png)
+![ARM Visualization](/DocumentsImages/ARM_visualization.png)
 
-Reference Article:[Deploy ARM Template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/quickstart-create-templates-use-the-portal#edit-and-deploy-the-template)
+Reference Article: [Deploy ARM Template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/quickstart-create-templates-use-the-portal#edit-and-deploy-the-template)
 
 # Devop Pipelines (For Developer)
