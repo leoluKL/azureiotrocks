@@ -4,7 +4,7 @@ Azure IoT Rocks platform demonstrates an end to end digital twin solution, which
 # Getting Started
 There are various ways to start exploring journey:
 -   Surf online live Azure IoT Rocks portal. It is the fastest way to start or even execute a POC project. Online system URL: https://azureiotrocksspa.z23.web.core.windows.net/
--   Deploy this repository to your own Azure subscription account. Refer to [deployment instruction](Documents/Deployment%20instruction.md) - 
+-   Deploy this repository to your own Azure subscription account. Refer to [deployment instruction](Documents/Deployment%20instruction.md)
 -   Read [module and process flow document](Documents/AzureIoTRocks%20module%20and%20flow%20design.md) and [programming reference](Documents/Programming%20Reference.md). Fetch modules in interest to your own programming project.
 
 
@@ -24,6 +24,10 @@ There are various ways to start exploring journey:
 -   Right click connecting line between twins to add bend point and adjust connection shape. Save current digital twins schematic layout by pressing "ctrl+s" and typing layout name. You can recall any saved layout from layout button in top side toolbar
 
 ## Explore More Software Features
+-   Integrate schematic design into a digital twin world
+The platform is capable of doing schematic diagram design. Not only you are able to create traditional CAD style schematic design in this digital twin platform, more importantly, your design is directly a digital twins network design now with all the support from cloud database service, IoT live data collection service, digital twin data processing service etc. Start migrating your static schematic designs to a live digital twin platform.
+![Screenshot](DocumentsImages/DigitalTwinSchematicDrawing.png)
+
 -   Digital Twins Data Processing<br/>
 An important usage of digital twin solution is to decouple complicate business processing flow into smaller processing logic that attaches with each digital twins. For example, the purpose of the below system design is to use "majorController" unit to control three different switches so one of data source will be connected to the final twin entity. It is implemented by setting decoupled logic flow among different twins. This simplifies the design. It also provide better flexibility in expanding system. <br/>
 ![Screenshot](DocumentsImages/Digital%20Twins%20Data%20Processing.png)
