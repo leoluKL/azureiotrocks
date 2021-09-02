@@ -1,8 +1,8 @@
-[CosmosDB Schema Design](#-cosmosdb-schema-design) 
+[CosmosDB Schema Design](#cosmosdb-schema-design) 
 
-[Solution Logic Flow](#-solution-logic-flow) 
+[Solution Logic Flow](#solution-logic-flow) 
 
-[User Signin Flow](#-user-signin-flow) 
+[User Signin Flow](#user-signin-flow) 
 
 
 # CosmosDB Schema Design
