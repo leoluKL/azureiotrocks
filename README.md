@@ -1,11 +1,13 @@
 # Introduction
-Azure IoT Rocks platform demonstrates an end to end digital twin solution, which is developed by using various Azure cloud services. It shows the implementation of many typical scerioes in IoT and Digital twin solutions, such as IoT devices telemetry and event data collection and visualization, digital twins modeling and binding with physical or virtual assets. IoT and Digital twin solutions are widely used in industry verticals such as smart building, manufacturing remote monitoring and control, energy system management and so on.
+Azure IoT Rocks platform demonstrates an end to end digital twin solution, which is developed by using various Azure cloud services. It shows the implementation of many typical scerioes in IoT and Digital twin solutions, such as IoT devices telemetry and event data collection and visualization, digital twins modeling and binding with physical or virtual assets. 
+
+IoT and Digital twin solutions are widely used in industry verticals such as smart building, manufacturing remote monitoring and control, energy system management and so on.
 
 # Getting Started
-There are various ways to start exploring journey:
+There are various ways to start your exploration:
 -   Surf online live Azure IoT Rocks portal. It is the fastest way to start or even execute a POC project. Online system URL: https://azureiotrocksspa.z23.web.core.windows.net/
 -   Deploy this repository to your own Azure subscription account. Refer to [deployment instruction](Documents/Deployment%20instruction.md)
--   Read [module and process flow document](Documents/AzureIoTRocks%20module%20and%20flow%20design.md) and [programming reference](Documents/Programming%20Reference.md). Fetch modules in interest to your own programming project.
+-   Read [module and process flow document](Documents/AzureIoTRocks%20module%20and%20flow%20design.md) and [programming reference](Documents/Programming%20Reference.md). Choose the modules that are useful into your own solution.
 
 
 ## Basic Software Operations (for first time user)
@@ -24,8 +26,8 @@ There are various ways to start exploring journey:
 -   Right click connecting line between twins to add bend point and adjust connection shape. Save current digital twins schematic layout by pressing "ctrl+s" and typing layout name. You can recall any saved layout from layout button in top side toolbar
 
 ## Explore More Software Features
--   Integrate schematic design into a digital twin world
-The platform is capable of doing schematic diagram design. Not only you are able to create traditional CAD style schematic design in this digital twin platform, more importantly, your design is directly a digital twins network design now with all the support from cloud database service, IoT live data collection service, digital twin data processing service etc. Start migrating your static schematic designs to a live digital twin platform.
+-   Integrate schematic design into a digital twin world<br/>
+The platform can be used for schematic diagram design. Not only you are able to create traditional CAD style schematic design in this digital twin platform, more importantly, your design will start out-of-the-box with support from cloud database service, IoT live data collection service, digital twin data processing service etc. Start migrating your static schematic designs to a live digital twin platform.
 ![Screenshot](DocumentsImages/DigitalTwinSchematicDrawing.png)
 
 -   Digital Twins Data Processing<br/>
