@@ -4,8 +4,8 @@ Azure IoT Rocks platform demonstrates an end to end digital twin solution, which
 # Getting Started
 There are various ways to start exploring journey:
 -   Surf online live Azure IoT Rocks portal. It is the fastest way to start or even execute a POC project. Online system URL: https://azureiotrocksspa.z23.web.core.windows.net/
--   Deploy this repository to your own Azure subscription account. Refer to [deployment instruction](Deployment%20instruction.md) - 
--   Read [module and process flow document](AzureIoTRocks%20module%20and%20flow%20design.md) and [programming reference](Programming%20Reference.md). Fetch modules in interest to your own programming project.
+-   Deploy this repository to your own Azure subscription account. Refer to [deployment instruction](Documents/Deployment%20instruction.md) - 
+-   Read [module and process flow document](Documents/AzureIoTRocks%20module%20and%20flow%20design.md) and [programming reference](Documents/Programming%20Reference.md). Fetch modules in interest to your own programming project.
 
 
 ## Basic Software Operations (for first time user)
@@ -28,11 +28,14 @@ There are various ways to start exploring journey:
 An important usage of digital twin solution is to decouple complicate business processing flow into smaller processing logic that attaches with each digital twins. For example, the purpose of the below system design is to use "majorController" unit to control three different switches so one of data source will be connected to the final twin entity. It is implemented by setting decoupled logic flow among different twins. This simplifies the design. It also provide better flexibility in expanding system. <br/>
 ![Screenshot](DocumentsImages/Digital%20Twins%20Data%20Processing.png)
 
+-   IoT digital twin<br/>
+Some of the digital twins represent physical world assets. They can be sensors, PLC machines, or even a data storage source such as ERP data source. In current platform, we will allow associate these physical assets with virtual digital twins through IoT hub service. If you define a digital twin model as IoT devices model, all its children digital twins will be provisioned to IoT services so the real world data can flow into platform and the live data will trigger other twins to execute calculation, like the previous section(Digital Twins Data Processing) shows.<br/>
+![Screenshot](DocumentsImages/IoT%20connection%20between%20real%20and%20digital%20twin.png)
 
 
 # Development
--   [module and process flow document](AzureIoTRocks%20module%20and%20flow%20design.md) 
--   [programming reference](Programming%20Reference.md)
+-   [module and process flow document](Documents/AzureIoTRocks%20module%20and%20flow%20design.md) 
+-   [programming reference](Documents/Programming%20Reference.md)
 
 ## Built With
 
