@@ -1,6 +1,9 @@
 [Platform Architecture](#platform-architecture) 
+
 [CosmosDB Schema Design](#cosmosdb-schema-design) 
+
 [Solution Logic Flow](#solution-logic-flow) 
+
 [User Signin Flow](#user-signin-flow) 
 
 
