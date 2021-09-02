@@ -8,7 +8,7 @@
 
 
 # Platform Architecture
-![Platform Architecture](/designFiles/architeture.drawio.svg)
+![Platform Architecture](/designFiles/azureiotrocks_architeture.drawio)
 
 # CosmosDB Schema Design
 ![CosmosDB Schema](/designFiles/cosmosDBDesign.drawio.svg)
