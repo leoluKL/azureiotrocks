@@ -31,6 +31,7 @@ The platform is capable of doing schematic diagram design. Not only you are able
 -   Digital Twins Data Processing<br/>
 An important usage of digital twin solution is to decouple complicate business processing flow into smaller processing logic that attaches with each digital twins. For example, the purpose of the below system design is to use "majorController" unit to control three different switches so one of data source will be connected to the final twin entity. It is implemented by setting decoupled logic flow among different twins. This simplifies the design. It also provide better flexibility in expanding system. <br/>
 ![Screenshot](DocumentsImages/Digital%20Twins%20Data%20Processing.png)
+Refer [calcualtion script guide](Documents/Twin_Calculation_Script_Guide.md) for samples and detail explaination.
 
 -   IoT digital twin<br/>
 Some of the digital twins represent physical world assets. They can be sensors, PLC machines, or even a data storage source such as ERP data source. In current platform, we will allow associate these physical assets with virtual digital twins through IoT hub service. If you define a digital twin model as IoT devices model, all its children digital twins will be provisioned to IoT services so the real world data can flow into platform and the live data will trigger other twins to execute calculation, like the previous section(Digital Twins Data Processing) shows.<br/>

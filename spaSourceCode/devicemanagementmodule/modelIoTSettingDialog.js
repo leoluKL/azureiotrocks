@@ -26,7 +26,8 @@ modelIoTSettingDialog.prototype.popup = async function(modelID) {
     var okButton = $('<button class="w3-button w3-card w3-green w3-hover-light-green" style="height:100%">Accept</button>')
     this.contentDOM.children(':first').append(okButton)
     okButton.on("click", async () => { 
-        this.checkModelIoTSettingChange()    
+        this.checkModelIoTSettingChange() 
+        okButton.on("click", async () => {}) //to avoid user repeat clicking
     })
 
     var firstRow=$('<div class="w3-cell-row" style="padding-bottom:10px"></div>')
