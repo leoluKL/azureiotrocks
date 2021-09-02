@@ -2,7 +2,7 @@
 
 [CosmosDB Schema Design](#cosmosdb-schema-design) 
 
-[Solution Logic Flow](#solution-logic-flow) 
+[Platform Logic Flow](#solution-logic-flow) 
 
 [User Signin Flow](#user-signin-flow) 
 
