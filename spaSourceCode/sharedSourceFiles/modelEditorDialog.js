@@ -354,6 +354,7 @@ function singleRelationTypeRow(dtdlObj,parentDOM,refreshDTDLF,parentDtdlObj,dial
     addButton.on("click",()=>{
         if(! dtdlObj["properties"]) dtdlObj["properties"]=[]
         var newObj = {
+            "@type": "Property",
             "name": "newP",
             "schema": "double"
         }
